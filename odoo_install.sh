@@ -53,10 +53,15 @@ sudo apt install nginx
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
 curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs/heads/18.0/nginx_http.conf -o "$NGINX_CONF"
-sed -i "s/domainname\.com/$DOMAIN_NAME/g" "$NGINX_CONF"
+sudo sed -i "s/domainname\.com/$DOMAIN_NAME/g" "$NGINX_CONF"
 sudo ln -s /etc/nginx/sites-available/odoo.conf /etc/nginx/sites-enabled/odoo.conf
 sudo nginx -t
 sudo service nginx restart
 #ssl
 sudo apt install python3-certbot-nginx
 sudo certbot --nginx --non-interactive --agree-tos --email "$SSL_EMAIL" -d "$DOMAIN_NAME"
+sudo rm -f "$NGINX_CONF"
+curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/18.0/nginx_ssl.conf -o "$NGINX_CONF"
+sudo sed -i "s/domainname\.com/$DOMAIN_NAME/g" "$NGINX_CONF"
+sudo nginx -t
+sudo service nginx restart
