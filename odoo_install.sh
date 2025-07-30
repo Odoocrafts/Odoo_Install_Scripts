@@ -1,3 +1,6 @@
+DOMAIN_NAME="yourdomain.com"
+NGINX_CONF="/etc/nginx/sites-available/odoo.conf"
+
 cd /opt
 mkdir odoo && cd odoo
 adduser --system --home=/opt/odoo --group odoo
@@ -49,7 +52,8 @@ sysctl -p
 sudo apt install nginx
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
-
+curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs/heads/18.0/nginx_http.conf -o "$NGINX_CONF"
+sed -i "s/domainname\.com/$DOMAIN_NAME/g" "$NGINX_CONF"
 sudo ln -s /etc/nginx/sites-available/odoo.conf /etc/nginx/sites-enabled/odoo.conf
 sudo nginx -t
 sudo service nginx restart
