@@ -7,7 +7,7 @@ mkdir odoo && cd odoo
 adduser --system --home=/opt/odoo --group odoo
 sudo chown -R odoo:odoo /opt/odoo
 sudo apt update
-sudo apt upgrade
+sudo apt upgrade -y
 sudo -u odoo git clone https://github.com/odoo/odoo -b 18.0 --depth 1
 mv odoo odoo-18.0
 cd odoo-18.0/
