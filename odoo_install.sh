@@ -1,5 +1,6 @@
-DOMAIN_NAME="yourdomain.com"
+DOMAIN_NAME="testserver.datasoupit.com"
 NGINX_CONF="/etc/nginx/sites-available/odoo.conf"
+SSL_EMAIL="hello@odoocrafts.com"
 
 cd /opt
 mkdir odoo && cd odoo
@@ -47,7 +48,6 @@ echo 'vm.swappiness=10' | tee -a /etc/sysctl.conf
 # Apply the new setting immediately without reboot
 sysctl -p
 
-
 #ngix
 sudo apt install nginx
 sudo rm /etc/nginx/sites-enabled/default
@@ -57,3 +57,6 @@ sed -i "s/domainname\.com/$DOMAIN_NAME/g" "$NGINX_CONF"
 sudo ln -s /etc/nginx/sites-available/odoo.conf /etc/nginx/sites-enabled/odoo.conf
 sudo nginx -t
 sudo service nginx restart
+#ssl
+sudo apt install python3-certbot-nginx
+sudo certbot --nginx --non-interactive --agree-tos --email "$SSL_EMAIL" -d "$DOMAIN_NAME"
