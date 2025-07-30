@@ -24,10 +24,32 @@ source venv/bin/activate
 pip install -r requirements_py312_fixed.txt
 
 sudo apt install postgresql postgresql-client
-sudo -u odoo createuser -d -R -S odoo
+sudo -u postgres createuser --createdb --username postgres --no-createrole --no-superuser --no-password odoo
 sudo -u odoo createdb odoo
 
 wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 sudo apt-get install -f
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
+
+#add swap
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo cp /etc/fstab /etc/fstab.bak
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+# Set swappiness to reduce swapping
+echo 'vm.swappiness=10' | tee -a /etc/sysctl.conf
+# Apply the new setting immediately without reboot
+sysctl -p
+
+
+#ngix
+sudo apt install nginx
+sudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-available/default
+
+sudo ln -s /etc/nginx/sites-available/odoo.conf /etc/nginx/sites-enabled/odoo.conf
+sudo nginx -t
+sudo service nginx restart
