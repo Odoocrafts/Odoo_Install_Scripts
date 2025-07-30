@@ -14,11 +14,11 @@ cd odoo-18.0/
 sudo -u odoo mkdir Custom_Addons
 
 sudo ./setup/debinstall.sh
-sudo apt install python3.12-venv
-sudo apt install python3-dev
-sudo apt install libpq-dev gcc
+sudo apt install python3.12-venv -y
+sudo apt install python3-dev -y
+sudo apt install libpq-dev gcc -y
 sudo apt install build-essential wget git python3-pip python3-dev python3-venv python3-wheel python3 libfreetype6-dev libxml2-dev libzip-dev libsasl2-dev python3-setuptools libjpeg-dev zlib1g-dev libpq-dev libxslt1-dev libldap2-dev libtiff5-dev libopenjp2-7-dev -y
-sudo apt install npm
+sudo apt install npm -y
 sudo npm install -g rtlcss
 
 #Python requirements
@@ -28,7 +28,7 @@ source venv/bin/activate
 pip install -r requirements_py312_fixed.txt
 
 #Postgres
-sudo apt install postgresql postgresql-client
+sudo apt install postgresql postgresql-client -y
 sudo -u postgres createuser --createdb --username postgres --no-createrole --no-superuser --no-password odoo
 sudo -u odoo createdb odoo
 # Set PostgreSQL tuning parameters via ALTER SYSTEM
@@ -53,7 +53,7 @@ systemctl restart postgresql
 
 wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
-sudo apt-get install -f
+sudo apt-get install -f -y
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 
 #add swap
@@ -69,7 +69,7 @@ echo 'vm.swappiness=10' | tee -a /etc/sysctl.conf
 sysctl -p
 
 #ngix
-sudo apt install nginx
+sudo apt install nginx -y
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
 curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs/heads/18.0/nginx_http.conf -o "$NGINX_CONF"
@@ -78,7 +78,7 @@ sudo ln -s /etc/nginx/sites-available/odoo.conf /etc/nginx/sites-enabled/odoo.co
 sudo nginx -t
 sudo service nginx restart
 #ssl
-sudo apt install python3-certbot-nginx
+sudo apt install python3-certbot-nginx -y
 sudo certbot --nginx --non-interactive --agree-tos --email "$SSL_EMAIL" -d "$DOMAIN_NAME"
 sudo rm -f "$NGINX_CONF"
 curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/18.0/nginx_ssl.conf -o "$NGINX_CONF"
