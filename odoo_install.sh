@@ -1,4 +1,4 @@
-DOMAIN_NAME="testserver.datasoupit.com"
+DOMAIN_NAME="domainname.com"
 NGINX_CONF="/etc/nginx/sites-available/odoo.conf"
 SSL_EMAIL="hello@odoocrafts.com"
 
