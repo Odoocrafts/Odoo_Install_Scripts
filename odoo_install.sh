@@ -93,5 +93,5 @@ curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs
 curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs/heads/18.0/odoo18.service -o "/lib/systemd/system/odoo18.service"
 sudo systemctl daemon-reload
 sudo systemctl start odoo18
-
+sudo systemctl enable odoo18
 
