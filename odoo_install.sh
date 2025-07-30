@@ -27,9 +27,29 @@ sudo -u odoo wget https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scri
 source venv/bin/activate
 pip install -r requirements_py312_fixed.txt
 
+#Postgres
 sudo apt install postgresql postgresql-client
 sudo -u postgres createuser --createdb --username postgres --no-createrole --no-superuser --no-password odoo
 sudo -u odoo createdb odoo
+# Set PostgreSQL tuning parameters via ALTER SYSTEM
+sudo -u postgres psql <<EOF
+ALTER SYSTEM SET max_connections = '200';
+ALTER SYSTEM SET shared_buffers = '512MB';
+ALTER SYSTEM SET effective_cache_size = '1536MB';
+ALTER SYSTEM SET maintenance_work_mem = '128MB';
+ALTER SYSTEM SET checkpoint_completion_target = '0.9';
+ALTER SYSTEM SET wal_buffers = '16MB';
+ALTER SYSTEM SET default_statistics_target = '100';
+ALTER SYSTEM SET random_page_cost = '1.1';
+ALTER SYSTEM SET effective_io_concurrency = '200';
+ALTER SYSTEM SET work_mem = '2520kB';
+ALTER SYSTEM SET huge_pages = 'off';
+ALTER SYSTEM SET min_wal_size = '1GB';
+ALTER SYSTEM SET max_wal_size = '4GB';
+EOF
+
+# Reload or restart PostgreSQL to apply changes
+systemctl restart postgresql
 
 wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
@@ -65,3 +85,13 @@ curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/18.0
 sudo sed -i "s/domainname\.com/$DOMAIN_NAME/g" "$NGINX_CONF"
 sudo nginx -t
 sudo service nginx restart
+
+
+#Set Odoo
+mkdir /etc/odoo
+curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs/heads/18.0/odoo.conf -o "/etc/odoo/odoo.conf"
+curl -sSL https://raw.githubusercontent.com/Odoocrafts/Odoo_Install_Scripts/refs/heads/18.0/odoo18.service -o "/lib/systemd/system/odoo18.service"
+sudo systemctl daemon-reload
+sudo systemctl start odoo18
+
+

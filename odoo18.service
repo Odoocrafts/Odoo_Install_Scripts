@@ -6,7 +6,7 @@ After=postgresql.service
 Type=simple
 User=odoo
 Group=odoo
-ExecStart=/opt/odoo/venv/bin/python /opt/odoo/odoo-18.0/odoo-bin  -c /etc/odoo/odoo.conf
+ExecStart=/opt/odoo/odoo-18.0/venv/bin/python /opt/odoo/odoo-18.0/odoo-bin  -c /etc/odoo/odoo.conf -d testdb1 -i base
 
 [Install]
 WantedBy=multi-user.target
