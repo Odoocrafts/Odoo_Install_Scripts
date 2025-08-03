@@ -1,6 +1,7 @@
 DOMAIN_NAME="domainname.com"
 NGINX_CONF="/etc/nginx/sites-available/odoo.conf"
 SSL_EMAIL="hello@odoocrafts.com"
+SERVICE_FILE="/lib/systemd/system/odoo18.service"
 
 cd /opt
 mkdir odoo && cd odoo
@@ -95,8 +96,6 @@ sudo systemctl daemon-reload
 sudo systemctl start odoo18
 #Wait for the test database to initialize to avoid any db init errors
 sleep 20
-# Define the path to the service file
-SERVICE_FILE="/etc/systemd/system/odoo.service"
 # Remove `-d ... -i ...` from ExecStart line
 sudo sed -i 's/ -d[[:space:]]\+[^[:space:]]\+[[:space:]]\+-i[[:space:]]\+[^[:space:]]\+//' "$SERVICE_FILE"
 sudo systemctl daemon-reload
