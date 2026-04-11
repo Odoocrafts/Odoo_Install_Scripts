@@ -68,3 +68,4 @@ sqlparse
 phonenumbers
 pycountry
 pandas
+pypeg2
